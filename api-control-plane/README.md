@@ -1,6 +1,6 @@
 # API Control Plane
 
-[![ci](https://github.com/example/api-control-plane/actions/workflows/ci.yml/badge.svg)](https://github.com/example/api-control-plane/actions/workflows/ci.yml)
+[![ci](https://github.com/shuoliugit/dev-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/shuoliugit/dev-platform/actions/workflows/ci.yml)
 
 `api-control-plane` is a production-style mini developer platform. It demonstrates how an API provider can onboard developers, issue credentials, manage application provisioning, expose sandbox APIs, enforce client-level rate limits, and surface usage data through a full-stack control plane.
 
