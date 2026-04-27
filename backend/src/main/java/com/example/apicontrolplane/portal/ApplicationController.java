@@ -89,7 +89,7 @@ public class ApplicationController {
 
   public record UpsertAppRequest(@NotBlank @Size(max = 120) String name, @Size(max = 1000) String description) {}
   public record AppResponse(UUID id, String name, String description, ApplicationStatus status, boolean provisioned, String createdAt, String updatedAt) {
-    static AppResponse from(DeveloperApplication app) {
+    public static AppResponse from(DeveloperApplication app) {
       return new AppResponse(app.getId(), app.getName(), app.getDescription(), app.getStatus(), app.isProvisioned(), app.getCreatedAt().toString(), app.getUpdatedAt().toString());
     }
   }
