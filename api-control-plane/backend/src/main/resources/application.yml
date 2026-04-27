@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-control-plane
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/api_control_plane}
+    username: ${SPRING_DATASOURCE_USERNAME:control_plane}
+    password: ${SPRING_DATASOURCE_PASSWORD:control_plane}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+app:
+  jwt:
+    issuer: api-control-plane
+    secret: ${JWT_SECRET:dev-only-change-me-dev-only-change-me-dev-only-change-me}
+    ttl-minutes: 120
+  sandbox:
+    rate-limit-per-minute: ${SANDBOX_RATE_LIMIT_PER_MINUTE:60}

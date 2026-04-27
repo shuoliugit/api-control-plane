@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-control-plane-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-control-plane-backend
+  template:
+    metadata:
+      labels:
+        app: api-control-plane-backend
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/example/api-control-plane-backend:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: api-control-plane-secrets
+                  key: database-url
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: api-control-plane-secrets
+                  key: jwt-secret
+            - name: REDIS_HOST
+              value: redis
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: api-control-plane-backend
+  ports:
+    - port: 8080
+      targetPort: 8080

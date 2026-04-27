@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-control-plane-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-control-plane-frontend
+  template:
+    metadata:
+      labels:
+        app: api-control-plane-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ghcr.io/example/api-control-plane-frontend:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: api-control-plane-frontend
+  ports:
+    - port: 80
+      targetPort: 80

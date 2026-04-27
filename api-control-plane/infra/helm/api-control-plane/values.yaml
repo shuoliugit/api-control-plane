@@ -1,0 +1,13 @@
+backend:
+  image: ghcr.io/example/api-control-plane-backend:latest
+  replicas: 2
+frontend:
+  image: ghcr.io/example/api-control-plane-frontend:latest
+  replicas: 2
+service:
+  type: ClusterIP
+secrets:
+  databaseUrl: jdbc:postgresql://postgres:5432/api_control_plane
+  jwtSecret: replace-me-with-external-secret-manager
+redis:
+  host: redis
