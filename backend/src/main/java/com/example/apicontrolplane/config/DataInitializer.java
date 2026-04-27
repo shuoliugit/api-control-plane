@@ -13,9 +13,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class DataInitializer {
   @Bean
   CommandLineRunner seedAdmin(UserRepository users, PasswordEncoder encoder,
-      @Value("${ADMIN_EMAIL:admin@controlplane.local}") String email,
-      @Value("${ADMIN_PASSWORD:AdminPassword123!}") String password) {
+      @Value("${app.admin.email:${ADMIN_EMAIL:admin@controlplane.local}}") String email,
+      @Value("${app.admin.password:${ADMIN_PASSWORD:}}") String password) {
     return args -> {
+      if (password == null || password.isBlank()) {
+        return;
+      }
       if (!users.existsByEmail(email.toLowerCase())) {
         users.save(new UserAccount(email, encoder.encode(password), "Platform Admin", Role.ADMIN));
       }

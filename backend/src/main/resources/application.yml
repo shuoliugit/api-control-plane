@@ -32,7 +32,7 @@ management:
 app:
   jwt:
     issuer: api-control-plane
-    secret: ${JWT_SECRET:dev-only-change-me-dev-only-change-me-dev-only-change-me}
+    secret: ${JWT_SECRET}
     ttl-minutes: 120
   sandbox:
     rate-limit-per-minute: ${SANDBOX_RATE_LIMIT_PER_MINUTE:60}

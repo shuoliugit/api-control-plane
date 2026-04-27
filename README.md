@@ -62,12 +62,14 @@ Open:
 - Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 - Health: `http://localhost:8080/actuator/health`
 
-Default admin account:
+Local Docker demo admin account:
 
 ```text
 admin@controlplane.local
 AdminPassword123!
 ```
+
+These are local demo credentials from `infra/docker/docker-compose.yml`; do not use them for a deployed environment.
 
 For local development without containerizing the app:
 
@@ -78,6 +80,8 @@ docker compose up postgres redis
 
 ```bash
 cd api-control-plane/backend
+export JWT_SECRET=local-dev-secret-local-dev-secret-local-dev-secret
+export ADMIN_PASSWORD=change-this-local-admin-password
 mvn spring-boot:run
 ```
 
@@ -132,16 +136,21 @@ Examples: [docs/api-examples.md](docs/api-examples.md).
 - `/actuator/metrics` exposes baseline JVM, HTTP, datasource, and process metrics.
 - Usage events record endpoint, method, status code, request ID, app, and timestamp.
 
-## CI/CD
+## Validation
 
-The GitHub Actions workflow runs:
+Before publishing changes, run the backend tests and frontend checks locally:
 
-- Backend build and tests with Maven
-- Frontend dependency install and production build
-- Backend Docker image build
-- Frontend Docker image build
+```bash
+cd backend
+mvn test
+```
 
-Workflow: [.github/workflows/ci.yml](.github/workflows/ci.yml).
+```bash
+cd frontend
+npm ci
+npm run lint
+npm run build
+```
 
 ## Design Decisions and Tradeoffs
 
